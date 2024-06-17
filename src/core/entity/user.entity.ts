@@ -5,9 +5,14 @@ import {
   OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
+  DeleteDateColumn,
+  BeforeInsert,
+  Unique,
 } from 'typeorm';
 import { UserWallet } from './user_wallet.entity';
+import { hashSync } from 'bcrypt';
 
+@Unique(['email'])
 @Entity('user')
 export class User {
   @PrimaryGeneratedColumn('increment')
@@ -28,9 +33,14 @@ export class User {
   @UpdateDateColumn({ name: 'updated_at' })
   updated_at: string;
 
-  @CreateDateColumn({ name: 'deleted_at' })
+  @DeleteDateColumn({ name: 'deleted_at' })
   deleted_at: string;
 
   @OneToMany(() => UserWallet, (userWallet) => userWallet.user)
   userWallets: UserWallet[];
+
+  // @BeforeInsert()
+  // hashPassword() {
+  //   this.password = hashSync(this.password, 10);
+  // }
 }

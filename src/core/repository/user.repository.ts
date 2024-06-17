@@ -1,5 +1,7 @@
 import { User } from '../entity/user.entity';
+import { CreateUserRequest } from '../../http/rest/dto/create_user_request.dto';
 
-export abstract class IUserRepository {
-  abstract findById(id: number): Promise<User | null>;
+export interface IUserRepository {
+  store(createUserRequest: CreateUserRequest): Promise<User>;
+  findById(id: number): Promise<User | null>;
 }

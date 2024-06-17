@@ -1,4 +1,13 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+} from 'typeorm';
 import { Wallet } from './wallet.entity';
 
 export enum TransactionType {
@@ -14,19 +23,25 @@ export class Transaction {
   @Column()
   title: string;
 
-  @Column({ type: 'simple-enum' })
+  @Column()
   type: TransactionType;
 
   @Column()
   value: number;
 
-  @ManyToOne(() => Wallet, wallet => wallet.transactions)
+  @ManyToOne(() => Wallet, (wallet) => wallet.transactions)
   @JoinColumn({ name: 'wallet_id' })
   wallet: Wallet;
 
   @Column()
   wallet_id: number;
 
-  @Column({ default: false })
-  deleted: boolean;
+  @CreateDateColumn({ name: 'created_at' })
+  created_at: string;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updated_at: string;
+
+  @DeleteDateColumn({ name: 'deleted_at' })
+  deleted_at: string;
 }

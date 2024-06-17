@@ -1,3 +1,3 @@
-export class CreateUserRequest {
+export class CreateWalletRequest {
   name: string;
 }
