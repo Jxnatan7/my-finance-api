@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm';
-import { ConflictException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../core/entity/user.entity';
 import { IUserRepository } from '../../core/repository/user.repository';
@@ -18,7 +18,7 @@ export class UserTypeOrmRepository implements IUserRepository {
     });
 
     if (existingUser) {
-      throw new ConflictException('Email is already in use');
+      return;
     }
 
     const user = this.typeOrmRepo.create(createUserRequest);

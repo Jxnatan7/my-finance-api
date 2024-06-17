@@ -28,19 +28,19 @@ export class User {
   password: string;
 
   @CreateDateColumn({ name: 'created_at' })
-  created_at: string;
+  createdAt: string;
 
   @UpdateDateColumn({ name: 'updated_at' })
-  updated_at: string;
+  updatedAt: string;
 
   @DeleteDateColumn({ name: 'deleted_at' })
-  deleted_at: string;
+  deletedAt: string;
 
   @OneToMany(() => UserWallet, (userWallet) => userWallet.user)
   userWallets: UserWallet[];
 
-  // @BeforeInsert()
-  // hashPassword() {
-  //   this.password = hashSync(this.password, 10);
-  // }
+  @BeforeInsert()
+  hashPassword() {
+    this.password = hashSync(this.password, 10);
+  }
 }

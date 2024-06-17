@@ -1,4 +1,4 @@
 export const MessagesHelper = {
   PASSWORD_VALID:
-    'A senha deve conter letras maiúsculas, minúsculas, números e caracteres especiais.',
+    'The password must contain uppercase letters, lowercase letters, numbers and special characters.',
 };
