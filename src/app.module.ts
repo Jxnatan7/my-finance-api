@@ -6,6 +6,10 @@ import { UserController } from './http/rest/controller/user.controller';
 import { UserService } from './core/service/user.service';
 import { UserTypeOrmRepository } from './persistence/repository/user.repository';
 import { AuthModule } from './auth/auth.module';
+import { WalletController } from './http/rest/controller/wallet.controller';
+import { WalletService } from './core/service/wallet.service';
+import { WalletTypeOrmRepository } from './persistence/repository/wallet.repository';
+import { Wallet } from './core/entity/wallet.entity';
 
 @Module({
   imports: [
@@ -20,15 +24,20 @@ import { AuthModule } from './auth/auth.module';
       entities: [__dirname + '/**/*.entity{.js,.ts}'],
       synchronize: true,
     } as TypeOrmModuleOptions),
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, Wallet]),
     AuthModule,
   ],
-  controllers: [UserController],
+  controllers: [UserController, WalletController],
   providers: [
     UserService,
+    WalletService,
     {
       provide: 'IUserRepository',
       useClass: UserTypeOrmRepository,
+    },
+    {
+      provide: 'IWalletRepository',
+      useClass: WalletTypeOrmRepository,
     },
   ],
 })

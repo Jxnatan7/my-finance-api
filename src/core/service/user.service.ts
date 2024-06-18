@@ -10,8 +10,8 @@ export class UserService {
     private readonly userRepository: IUserRepository,
   ) {}
 
-  async store(createUserRequest: CreateUserRequest) {
-    return await this.userRepository.store(createUserRequest);
+  async create(createUserRequest: CreateUserRequest) {
+    return await this.userRepository.create(createUserRequest);
   }
 
   async findById(id: number): Promise<User | null> {

@@ -5,7 +5,8 @@ import {
   Get,
   NotFoundException,
   Param,
-  Post, UseGuards,
+  Post,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from '../../../core/service/user.service';
 import { CreateUserRequest } from '../dto/create_user_request.dto';
@@ -21,7 +22,7 @@ export class UserController {
   async store(
     @Body() createUserRequest: CreateUserRequest,
   ): Promise<SimpleUserResponse> {
-    const user = await this.userService.store(createUserRequest);
+    const user = await this.userService.create(createUserRequest);
     if (!user) {
       throw new ConflictException('Email is already in use');
     }
