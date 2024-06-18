@@ -4,11 +4,11 @@ import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import * as process from 'node:process';
 import { LocalStrategy } from './strategies/local.strategy';
 import { UserTypeOrmRepository } from '../persistence/repository/user.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../core/entity/user.entity';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -24,6 +24,7 @@ import { User } from '../core/entity/user.entity';
   providers: [
     AuthService,
     LocalStrategy,
+    JwtStrategy,
     {
       provide: 'IUserRepository',
       useClass: UserTypeOrmRepository,

@@ -5,14 +5,15 @@ import {
   Get,
   NotFoundException,
   Param,
-  Post,
+  Post, UseGuards,
 } from '@nestjs/common';
-import { User } from '../../../core/entity/user.entity';
 import { UserService } from '../../../core/service/user.service';
 import { CreateUserRequest } from '../dto/create_user_request.dto';
 import { SimpleUserResponse } from '../dto/simple_user_response.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('api/v1/users')
+@UseGuards(AuthGuard('jwt'))
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
