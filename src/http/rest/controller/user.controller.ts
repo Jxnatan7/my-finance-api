@@ -1,5 +1,6 @@
 import {
-  Body, ConflictException,
+  Body,
+  ConflictException,
   Controller,
   Get,
   NotFoundException,
@@ -16,16 +17,20 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async store(@Body() createUserRequest: CreateUserRequest): Promise<SimpleUserResponse> {
+  async store(
+    @Body() createUserRequest: CreateUserRequest,
+  ): Promise<SimpleUserResponse> {
     const user = await this.userService.store(createUserRequest);
-    if(!user) {
+    if (!user) {
       throw new ConflictException('Email is already in use');
     }
     return new SimpleUserResponse(user);
   }
 
   @Get(':id')
-  async findById(@Param('id') id: number): Promise<SimpleUserResponse | NotFoundException> {
+  async findById(
+    @Param('id') id: number,
+  ): Promise<SimpleUserResponse | NotFoundException> {
     const user = await this.userService.findById(id);
 
     if (!user) {

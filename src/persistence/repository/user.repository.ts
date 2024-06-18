@@ -25,11 +25,21 @@ export class UserTypeOrmRepository implements IUserRepository {
     return await this.typeOrmRepo.save(user);
   }
 
-  async findById(id: number) {
+  async findById(id: number): Promise<User> {
     const user = await this.typeOrmRepo.findOne({ where: { id } });
 
     if (!user) {
-      return null;
+      return;
+    }
+
+    return user;
+  }
+
+  async findByEmail(email: string): Promise<User> {
+    const user = await this.typeOrmRepo.findOne({ where: { email } });
+
+    if (!user) {
+      return;
     }
 
     return user;
