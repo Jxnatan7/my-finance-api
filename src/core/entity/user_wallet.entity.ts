@@ -4,6 +4,8 @@ import {
   ManyToOne,
   JoinColumn,
   Column,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { User } from './user.entity';
 import { Wallet } from './wallet.entity';
@@ -26,4 +28,10 @@ export class UserWallet {
 
   @Column()
   wallet_id: number;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: string;
+
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt: string;
 }

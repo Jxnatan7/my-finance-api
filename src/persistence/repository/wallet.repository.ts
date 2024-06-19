@@ -4,20 +4,43 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Wallet } from '../../core/entity/wallet.entity';
 import { IWalletRepository } from '../../core/repository/wallet.repository';
 import { CreateWalletRequest } from '../../http/rest/dto/create_wallet_request.dto';
+import { UserWallet } from '../../core/entity/user_wallet.entity';
 
 @Injectable()
 export class WalletTypeOrmRepository implements IWalletRepository {
   constructor(
     @InjectRepository(Wallet)
-    private typeOrmRepo: Repository<Wallet>,
+    private walletTypeOrmRepo: Repository<Wallet>,
+    @InjectRepository(UserWallet)
+    private userWalletTypeOrmRepo: Repository<UserWallet>,
   ) {}
 
   async create(
     createWalletRequest: CreateWalletRequest,
     userId: number,
   ): Promise<Wallet> {
-    const wallet = new Wallet();
-    wallet.name = createWalletRequest.name;
-    return await this.typeOrmRepo.save(wallet);
+    if (!createWalletRequest.name) {
+      return;
+    }
+
+    let wallet = this.walletTypeOrmRepo.create({
+      name: createWalletRequest.name,
+      balance: 0,
+    });
+
+    wallet = await this.walletTypeOrmRepo.save(wallet);
+
+    await this.createUserWalletAssoc(userId, wallet.id);
+
+    return wallet;
+  }
+
+  async createUserWalletAssoc(userId: number, walletId: number) {
+    const userWallet = this.userWalletTypeOrmRepo.create({
+      user_id: userId,
+      wallet_id: walletId,
+    });
+
+    await this.userWalletTypeOrmRepo.save(userWallet);
   }
 }

@@ -14,6 +14,17 @@ export class WalletController {
     @Body() createWalletRequest: CreateWalletRequest,
     @User() user: any,
   ) {
-    return await this.walletService.create(createWalletRequest, user.id);
+    const wallet = await this.walletService.create(
+      createWalletRequest,
+      user.id,
+    );
+
+    if (!wallet) {
+      return {
+        error: true,
+      };
+    }
+
+    return wallet;
   }
 }

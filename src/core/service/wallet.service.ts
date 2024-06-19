@@ -13,8 +13,4 @@ export class WalletService {
   async create(createWalletRequest: CreateWalletRequest, userId: number) {
     return await this.walletRepository.create(createWalletRequest, userId);
   }
-
-  // async findById(id: number): Promise<User | null> {
-  //   return await this.walletRepository.findById(id);
-  // }
 }
