@@ -10,11 +10,11 @@ export class UserService {
     private readonly userRepository: IUserRepository,
   ) {}
 
-  async create(createUserRequest: CreateUserRequest) {
+  public async create(createUserRequest: CreateUserRequest) {
     return await this.userRepository.create(createUserRequest);
   }
 
-  async findById(id: number): Promise<User | null> {
+  public async findById(id: number): Promise<User> {
     return await this.userRepository.findById(id);
   }
 }

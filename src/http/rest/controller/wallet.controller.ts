@@ -1,9 +1,18 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller, Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { CreateWalletRequest } from '../dto/create_wallet_request.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { WalletService } from '../../../core/service/wallet.service';
 import { User } from '../helpers/user.decorator';
 import { Wallet } from '../../../core/entity/wallet.entity';
+import { UpdateResult } from 'typeorm';
 
 type UserJwt = { id: number; email: string };
 
@@ -23,5 +32,21 @@ export class WalletController {
   @Get('all')
   async findAll(@User() user: UserJwt): Promise<Wallet[]> {
     return await this.walletService.findAll(user?.id);
+  }
+
+  @Get(':id')
+  async findById(@Param('id') id: number): Promise<Wallet | NotFoundException> {
+    const wallet = await this.walletService.findById(id);
+
+    if (!wallet) {
+      throw new NotFoundException(`Wallet with id ${id} not found`);
+    }
+
+    return wallet;
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: number): Promise<void> {
+    await this.walletService.delete(id);
   }
 }

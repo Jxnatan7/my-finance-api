@@ -8,4 +8,8 @@ export interface IWalletRepository {
   ): Promise<Wallet>;
 
   findAll(userId: number): Promise<Wallet[]>;
+
+  findById(id: number): Promise<Wallet>;
+
+  delete(id: number): Promise<void>;
 }

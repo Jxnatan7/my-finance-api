@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { IWalletRepository } from '../repository/wallet.repository';
 import { CreateWalletRequest } from '../../http/rest/dto/create_wallet_request.dto';
 import { Wallet } from '../entity/wallet.entity';
+import { UpdateResult } from 'typeorm';
 
 @Injectable()
 export class WalletService {
@@ -19,5 +20,13 @@ export class WalletService {
 
   public async findAll(userId: number): Promise<Wallet[]> {
     return await this.walletRepository.findAll(userId);
+  }
+
+  public async findById(id: number): Promise<Wallet> {
+    return await this.walletRepository.findById(id);
+  }
+
+  public async delete(id: number): Promise<void> {
+    await this.walletRepository.delete(id);
   }
 }

@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Wallet } from '../../core/entity/wallet.entity';
@@ -58,5 +58,24 @@ export class WalletTypeOrmRepository implements IWalletRepository {
     });
 
     return userWallets.map((userWallet: UserWallet) => userWallet.wallet);
+  }
+
+  public async findById(id: number): Promise<Wallet> {
+    const wallet = await this.walletTypeOrmRepo.findOne({ where: { id } });
+
+    if (!wallet) {
+      return;
+    }
+
+    return wallet;
+  }
+
+  public async delete(id: number): Promise<void> {
+    await this.walletTypeOrmRepo
+      .createQueryBuilder()
+      .update(Wallet)
+      .set({ deleted_at: `${new Date()}` })
+      .where('id = :id', { id })
+      .execute();
   }
 }

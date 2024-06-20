@@ -9,11 +9,11 @@ import { CreateUserRequest } from '../../http/rest/dto/create_user_request.dto';
 export class UserTypeOrmRepository implements IUserRepository {
   constructor(
     @InjectRepository(User)
-    private typeOrmRepo: Repository<User>,
+    private userTypeOrmRepo: Repository<User>,
   ) {}
 
   public async create(createUserRequest: CreateUserRequest): Promise<User> {
-    const existingUser = await this.typeOrmRepo.findOne({
+    const existingUser = await this.userTypeOrmRepo.findOne({
       where: { email: createUserRequest.email },
     });
 
@@ -21,12 +21,12 @@ export class UserTypeOrmRepository implements IUserRepository {
       return;
     }
 
-    const user: User = this.typeOrmRepo.create(createUserRequest);
-    return await this.typeOrmRepo.save(user);
+    const user: User = this.userTypeOrmRepo.create(createUserRequest);
+    return await this.userTypeOrmRepo.save(user);
   }
 
   public async findById(id: number): Promise<User> {
-    const user = await this.typeOrmRepo.findOne({ where: { id } });
+    const user = await this.userTypeOrmRepo.findOne({ where: { id } });
 
     if (!user) {
       return;
@@ -36,7 +36,7 @@ export class UserTypeOrmRepository implements IUserRepository {
   }
 
   public async findByEmail(email: string): Promise<User> {
-    const user = await this.typeOrmRepo.findOne({ where: { email } });
+    const user = await this.userTypeOrmRepo.findOne({ where: { email } });
 
     if (!user) {
       return;
