@@ -1,4 +1,11 @@
-import { Body, ConflictException, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  ConflictException,
+  Controller,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { CreateUserRequest } from '../http/rest/dto/create_user_request.dto';

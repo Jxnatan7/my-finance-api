@@ -21,9 +21,6 @@ export class Wallet {
   @Column()
   balance: number;
 
-  @Column({ default: false })
-  deleted: boolean;
-
   @OneToMany(() => UserWallet, (userWallet) => userWallet.wallet)
   userWallets: UserWallet[];
 

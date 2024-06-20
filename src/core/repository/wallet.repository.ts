@@ -6,4 +6,6 @@ export interface IWalletRepository {
     createWalletRequest: CreateWalletRequest,
     userId: number,
   ): Promise<Wallet>;
+
+  findAll(userId: number): Promise<Wallet[]>;
 }

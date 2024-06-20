@@ -39,11 +39,24 @@ export class WalletTypeOrmRepository implements IWalletRepository {
     userId: number,
     walletId: number,
   ): Promise<void> {
-    const userWallet = this.userWalletTypeOrmRepo.create({
+    const userWallet: UserWallet = this.userWalletTypeOrmRepo.create({
       user_id: userId,
       wallet_id: walletId,
     });
 
     await this.userWalletTypeOrmRepo.save(userWallet);
+  }
+
+  public async findAll(userId: number): Promise<Wallet[]> {
+    if (!userId) {
+      return;
+    }
+
+    const userWallets: UserWallet[] = await this.userWalletTypeOrmRepo.find({
+      where: { user: { id: userId } },
+      relations: ['wallet'],
+    });
+
+    return userWallets.map((userWallet: UserWallet) => userWallet.wallet);
   }
 }
