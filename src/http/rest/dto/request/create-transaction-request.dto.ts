@@ -1,5 +1,5 @@
 import { IsEnum, IsNotEmpty } from 'class-validator';
-import { TransactionType } from '../../../core/entity/transaction.entity';
+import { TransactionType } from '../../../../core/entity/transaction.entity';
 import { Expose } from 'class-transformer';
 
 export class CreateTransactionRequest {

@@ -11,8 +11,9 @@ import {
 import { Transaction } from '../../../core/entity/transaction.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from '../helpers/user.decorator';
-import { CreateTransactionRequest } from '../dto/create_transaction_request.dto';
 import { TransactionService } from '../../../core/service/transaction.service';
+import { CreateTransactionRequest } from '../dto/request/create-transaction-request.dto';
+import { WalletTransactionsResponse } from '../dto/response/wallet-transactions-response.dto';
 
 type UserJwt = { id: number; email: string };
 
@@ -36,7 +37,7 @@ export class TransactionController {
   @Get('all/:walletId')
   async findAllByWalletId(
     @Param('walletId') walletId: number,
-  ): Promise<Transaction[]> {
+  ): Promise<WalletTransactionsResponse> {
     return await this.transactionService.findAllByWalletId(walletId);
   }
 

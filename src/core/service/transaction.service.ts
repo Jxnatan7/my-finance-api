@@ -1,7 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ITransactionRepository } from '../repository/transaction.repository';
-import { CreateTransactionRequest } from '../../http/rest/dto/create_transaction_request.dto';
+import { CreateTransactionRequest } from '../../http/rest/dto/request/create-transaction-request.dto';
 import { Transaction } from '../entity/transaction.entity';
+import { WalletTransactionsResponse } from '../../http/rest/dto/response/wallet-transactions-response.dto';
 
 @Injectable()
 export class TransactionService {
@@ -18,7 +19,9 @@ export class TransactionService {
     return await this.transactionRepository.findAll(userId);
   }
 
-  public async findAllByWalletId(walletId: number): Promise<Transaction[]> {
+  public async findAllByWalletId(
+    walletId: number,
+  ): Promise<WalletTransactionsResponse> {
     return await this.transactionRepository.findAllByWalletId(walletId);
   }
 

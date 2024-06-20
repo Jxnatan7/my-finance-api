@@ -1,10 +1,13 @@
 import { Repository } from 'typeorm';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ITransactionRepository } from '../../core/repository/transaction.repository';
 import { Transaction } from '../../core/entity/transaction.entity';
 import { UserWallet } from '../../core/entity/user_wallet.entity';
-import { CreateTransactionRequest } from '../../http/rest/dto/create_transaction_request.dto';
+import { CreateTransactionRequest } from '../../http/rest/dto/request/create-transaction-request.dto';
+import { Wallet } from '../../core/entity/wallet.entity';
+import { MessagesHelper } from '../../http/rest/helpers/messages.helper';
+import { WalletTransactionsResponse } from '../../http/rest/dto/response/wallet-transactions-response.dto';
 
 @Injectable()
 export class TransactionTypeOrmRepository implements ITransactionRepository {
@@ -13,6 +16,8 @@ export class TransactionTypeOrmRepository implements ITransactionRepository {
     private transactionTypeOrmRepo: Repository<Transaction>,
     @InjectRepository(UserWallet)
     private userWalletTypeOrmRepo: Repository<UserWallet>,
+    @InjectRepository(Wallet)
+    private walletTypeOrmRepo: Repository<Wallet>,
   ) {}
 
   public async create(
@@ -29,28 +34,38 @@ export class TransactionTypeOrmRepository implements ITransactionRepository {
       relations: ['wallet'],
     });
 
-    const walletIds = userWallets.map((userWallet) => userWallet.wallet.id);
+    const walletIds: number[] = userWallets.map(
+      (userWallet) => userWallet.wallet.id,
+    );
 
     if (walletIds.length === 0) {
       return [];
     }
 
     return this.transactionTypeOrmRepo.find({
-      where: walletIds.map((id) => ({ wallet: { id } })),
+      where: walletIds.map((id: number) => ({ wallet: { id } })),
       relations: ['wallet'],
     });
   }
 
-  public async findAllByWalletId(walletId: number): Promise<Transaction[]> {
-    const transactions = await this.transactionTypeOrmRepo.find({
+  public async findAllByWalletId(
+    walletId: number,
+  ): Promise<WalletTransactionsResponse> {
+    const wallet: Wallet = await this.walletTypeOrmRepo.findOne({
+      where: { id: walletId },
+    });
+
+    if (!wallet) {
+      throw new NotFoundException({
+        message: MessagesHelper.WALLET_NOT_FOUND,
+      });
+    }
+
+    const transactions: Transaction[] = await this.transactionTypeOrmRepo.find({
       where: { wallet_id: walletId },
     });
 
-    if (transactions.length === 0) {
-      return [];
-    }
-
-    return transactions;
+    return new WalletTransactionsResponse(wallet, transactions);
   }
 
   public async findById(id: number): Promise<Transaction> {

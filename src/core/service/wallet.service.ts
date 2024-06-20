@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { IWalletRepository } from '../repository/wallet.repository';
-import { CreateWalletRequest } from '../../http/rest/dto/create_wallet_request.dto';
 import { Wallet } from '../entity/wallet.entity';
+import { CreateWalletRequest } from '../../http/rest/dto/request/create-wallet-request.dto';
 
 @Injectable()
 export class WalletService {

@@ -1,5 +1,5 @@
 import { User } from '../entity/user.entity';
-import { CreateUserRequest } from '../../http/rest/dto/create_user_request.dto';
+import { CreateUserRequest } from '../../http/rest/dto/request/create-user-request.dto';
 
 export interface IUserRepository {
   create(createUserRequest: CreateUserRequest): Promise<User>;

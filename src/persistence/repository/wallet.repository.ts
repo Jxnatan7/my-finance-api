@@ -1,10 +1,10 @@
-import { Repository, UpdateResult } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Wallet } from '../../core/entity/wallet.entity';
 import { IWalletRepository } from '../../core/repository/wallet.repository';
-import { CreateWalletRequest } from '../../http/rest/dto/create_wallet_request.dto';
 import { UserWallet } from '../../core/entity/user_wallet.entity';
+import { CreateWalletRequest } from '../../http/rest/dto/request/create-wallet-request.dto';
 
 @Injectable()
 export class WalletTypeOrmRepository implements IWalletRepository {

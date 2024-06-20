@@ -8,9 +8,9 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
-import { CreateUserRequest } from '../http/rest/dto/create_user_request.dto';
-import { SimpleUserResponse } from '../http/rest/dto/simple_user_response.dto';
 import { UserService } from '../core/service/user.service';
+import { CreateUserRequest } from '../http/rest/dto/request/create-user-request.dto';
+import { SimpleUserResponse } from '../http/rest/dto/response/simple-user-response.dto';
 
 @Controller('api/auth')
 export class AuthController {

@@ -8,11 +8,11 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { CreateWalletRequest } from '../dto/create_wallet_request.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { WalletService } from '../../../core/service/wallet.service';
 import { User } from '../helpers/user.decorator';
 import { Wallet } from '../../../core/entity/wallet.entity';
+import { CreateWalletRequest } from '../dto/request/create-wallet-request.dto';
 
 type UserJwt = { id: number; email: string };
 

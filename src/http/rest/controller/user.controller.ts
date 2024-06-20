@@ -1,6 +1,4 @@
 import {
-  Body,
-  ConflictException,
   Controller,
   Get,
   NotFoundException,
@@ -8,8 +6,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from '../../../core/service/user.service';
-import { SimpleUserResponse } from '../dto/simple_user_response.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { SimpleUserResponse } from '../dto/response/simple-user-response.dto';
 
 @Controller('api/v1/users')
 @UseGuards(AuthGuard('jwt'))
