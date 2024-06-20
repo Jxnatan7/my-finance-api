@@ -2,7 +2,6 @@ import { Inject, Injectable } from '@nestjs/common';
 import { IWalletRepository } from '../repository/wallet.repository';
 import { CreateWalletRequest } from '../../http/rest/dto/create_wallet_request.dto';
 import { Wallet } from '../entity/wallet.entity';
-import { UpdateResult } from 'typeorm';
 
 @Injectable()
 export class WalletService {

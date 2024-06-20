@@ -1,6 +1,7 @@
 import {
   Body,
-  Controller, Delete,
+  Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -12,7 +13,6 @@ import { AuthGuard } from '@nestjs/passport';
 import { WalletService } from '../../../core/service/wallet.service';
 import { User } from '../helpers/user.decorator';
 import { Wallet } from '../../../core/entity/wallet.entity';
-import { UpdateResult } from 'typeorm';
 
 type UserJwt = { id: number; email: string };
 

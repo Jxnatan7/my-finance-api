@@ -23,7 +23,10 @@ export class Transaction {
   @Column()
   title: string;
 
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: TransactionType,
+  })
   type: TransactionType;
 
   @Column()
