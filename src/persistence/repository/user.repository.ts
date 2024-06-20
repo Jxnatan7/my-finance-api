@@ -12,7 +12,7 @@ export class UserTypeOrmRepository implements IUserRepository {
     private typeOrmRepo: Repository<User>,
   ) {}
 
-  async create(createUserRequest: CreateUserRequest): Promise<User> {
+  public async create(createUserRequest: CreateUserRequest): Promise<User> {
     const existingUser = await this.typeOrmRepo.findOne({
       where: { email: createUserRequest.email },
     });
@@ -25,7 +25,7 @@ export class UserTypeOrmRepository implements IUserRepository {
     return await this.typeOrmRepo.save(user);
   }
 
-  async findById(id: number): Promise<User> {
+  public async findById(id: number): Promise<User> {
     const user = await this.typeOrmRepo.findOne({ where: { id } });
 
     if (!user) {
@@ -35,7 +35,7 @@ export class UserTypeOrmRepository implements IUserRepository {
     return user;
   }
 
-  async findByEmail(email: string): Promise<User> {
+  public async findByEmail(email: string): Promise<User> {
     const user = await this.typeOrmRepo.findOne({ where: { email } });
 
     if (!user) {

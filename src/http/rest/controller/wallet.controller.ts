@@ -4,6 +4,8 @@ import { AuthGuard } from '@nestjs/passport';
 import { WalletService } from '../../../core/service/wallet.service';
 import { User } from '../helpers/user.decorator';
 
+type UserJwt = { id: number; email: string };
+
 @Controller('api/v1/wallet')
 @UseGuards(AuthGuard('jwt'))
 export class WalletController {
@@ -12,19 +14,8 @@ export class WalletController {
   @Post()
   async create(
     @Body() createWalletRequest: CreateWalletRequest,
-    @User() user: any,
+    @User() user: UserJwt,
   ) {
-    const wallet = await this.walletService.create(
-      createWalletRequest,
-      user.id,
-    );
-
-    if (!wallet) {
-      return {
-        error: true,
-      };
-    }
-
-    return wallet;
+    return await this.walletService.create(createWalletRequest, user?.id);
   }
 }

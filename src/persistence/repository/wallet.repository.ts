@@ -15,7 +15,7 @@ export class WalletTypeOrmRepository implements IWalletRepository {
     private userWalletTypeOrmRepo: Repository<UserWallet>,
   ) {}
 
-  async create(
+  public async create(
     createWalletRequest: CreateWalletRequest,
     userId: number,
   ): Promise<Wallet> {
@@ -35,7 +35,10 @@ export class WalletTypeOrmRepository implements IWalletRepository {
     return wallet;
   }
 
-  async createUserWalletAssoc(userId: number, walletId: number) {
+  private async createUserWalletAssoc(
+    userId: number,
+    walletId: number,
+  ): Promise<void> {
     const userWallet = this.userWalletTypeOrmRepo.create({
       user_id: userId,
       wallet_id: walletId,

@@ -9,6 +9,7 @@ import { UserTypeOrmRepository } from '../persistence/repository/user.repository
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../core/entity/user.entity';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { UserService } from '../core/service/user.service';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
   ],
   controllers: [AuthController],
   providers: [
+    UserService,
     AuthService,
     LocalStrategy,
     JwtStrategy,

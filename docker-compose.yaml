@@ -5,7 +5,7 @@ services:
     image: postgres:latest
     container_name: my-finance-postgres
     environment:
-      POSTGRES_DB: my_finance
+      POSTGRES_DB: my-finance
       POSTGRES_USER: jonatan
       POSTGRES_PASSWORD: 1234
     ports:
