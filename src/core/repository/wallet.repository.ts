@@ -7,6 +7,10 @@ export interface IWalletRepository {
     userId: number,
   ): Promise<Wallet>;
 
+  save(wallet: Wallet): Promise<Wallet>;
+
+  update(wallet: Wallet): Promise<Wallet>;
+
   findAll(userId: number): Promise<Wallet[]>;
 
   findById(id: number): Promise<Wallet>;

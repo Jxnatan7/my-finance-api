@@ -35,6 +35,15 @@ export class WalletTypeOrmRepository implements IWalletRepository {
     return wallet;
   }
 
+  public async save(wallet: Wallet): Promise<Wallet> {
+    return await this.walletTypeOrmRepo.save(wallet);
+  }
+
+  public async update(wallet: Wallet): Promise<Wallet> {
+    await this.walletTypeOrmRepo.update(wallet.id, wallet);
+    return await this.walletTypeOrmRepo.findOne({ where: { id: wallet.id } });
+  }
+
   private async createUserWalletAssoc(
     userId: number,
     walletId: number,

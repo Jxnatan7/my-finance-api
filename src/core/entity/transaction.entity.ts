@@ -20,7 +20,7 @@ export class Transaction {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({ name: 'title' })
   title: string;
 
   @Column({
@@ -29,7 +29,7 @@ export class Transaction {
   })
   type: TransactionType;
 
-  @Column()
+  @Column({ name: 'value' })
   value: number;
 
   @ManyToOne(() => Wallet, (wallet) => wallet.transactions)

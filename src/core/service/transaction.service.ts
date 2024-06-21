@@ -1,18 +1,46 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ITransactionRepository } from '../repository/transaction.repository';
 import { CreateTransactionRequest } from '../../http/rest/dto/request/create-transaction-request.dto';
-import { Transaction } from '../entity/transaction.entity';
+import { Transaction, TransactionType } from '../entity/transaction.entity';
 import { WalletTransactionsResponse } from '../../http/rest/dto/response/wallet-transactions-response.dto';
+import { IWalletRepository } from '../repository/wallet.repository';
+import { WalletService } from './wallet.service';
 
 @Injectable()
 export class TransactionService {
   constructor(
     @Inject('ITransactionRepository')
     private readonly transactionRepository: ITransactionRepository,
+    @Inject('ITransactionRepository')
+    private readonly walletRepository: IWalletRepository,
+    private readonly walletService: WalletService,
   ) {}
 
-  public async create(createWalletRequest: CreateTransactionRequest) {
-    return await this.transactionRepository.create(createWalletRequest);
+  public async create(
+    createTransactionRequest: CreateTransactionRequest,
+  ): Promise<Transaction> {
+    const wallet = await this.walletService.findById(
+      createTransactionRequest.walletId,
+    );
+
+    if (!wallet) {
+      throw new NotFoundException('Wallet not found');
+    }
+
+    const transaction = await this.transactionRepository.create(
+      createTransactionRequest,
+    );
+
+    const transactionSaved = await this.transactionRepository.save(transaction);
+
+    if (transactionSaved.type === TransactionType.Credit) {
+      wallet.balance += transactionSaved.value;
+    } else if (transactionSaved.type === TransactionType.Debit) {
+      wallet.balance -= transactionSaved.value;
+    }
+
+    await this.walletRepository.update(wallet);
+    return transaction;
   }
 
   public async findAll(userId: number): Promise<Transaction[]> {

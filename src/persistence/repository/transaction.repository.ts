@@ -23,8 +23,10 @@ export class TransactionTypeOrmRepository implements ITransactionRepository {
   public async create(
     createWalletRequest: CreateTransactionRequest,
   ): Promise<Transaction> {
-    const transaction: Transaction =
-      this.transactionTypeOrmRepo.create(createWalletRequest);
+    return this.transactionTypeOrmRepo.create(createWalletRequest);
+  }
+
+  public async save(transaction: Transaction): Promise<Transaction> {
     return await this.transactionTypeOrmRepo.save(transaction);
   }
 
