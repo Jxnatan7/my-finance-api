@@ -11,15 +11,14 @@ export class TransactionService {
   constructor(
     @Inject('ITransactionRepository')
     private readonly transactionRepository: ITransactionRepository,
-    @Inject('ITransactionRepository')
+    @Inject('IWalletRepository')
     private readonly walletRepository: IWalletRepository,
-    private readonly walletService: WalletService,
   ) {}
 
   public async create(
     createTransactionRequest: CreateTransactionRequest,
   ): Promise<Transaction> {
-    const wallet = await this.walletService.findById(
+    const wallet = await this.walletRepository.findById(
       createTransactionRequest.walletId,
     );
 
