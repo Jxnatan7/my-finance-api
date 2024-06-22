@@ -10,11 +10,9 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { WalletService } from '../../../core/service/wallet.service';
-import { User } from '../helpers/user.decorator';
+import { User, UserJwt } from '../helpers/user.decorator';
 import { Wallet } from '../../../core/entity/wallet.entity';
 import { CreateWalletRequest } from '../dto/request/create-wallet-request.dto';
-
-type UserJwt = { id: number; email: string };
 
 @Controller('api/v1/wallet')
 @UseGuards(AuthGuard('jwt'))
