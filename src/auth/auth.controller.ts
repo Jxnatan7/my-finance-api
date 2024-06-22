@@ -1,7 +1,7 @@
 import {
   Body,
   ConflictException,
-  Controller,
+  Controller, HttpCode,
   Post,
   Req,
   UseGuards,
@@ -20,6 +20,7 @@ export class AuthController {
   ) {}
 
   @UseGuards(AuthGuard('local'))
+  @HttpCode(200)
   @Post('login')
   public async login(@Req() req: any) {
     return await this.authService.login(req.user);
