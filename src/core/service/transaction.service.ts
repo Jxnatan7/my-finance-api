@@ -4,7 +4,7 @@ import { CreateTransactionRequest } from '../../http/rest/dto/request/create-tra
 import { Transaction, TransactionType } from '../entity/transaction.entity';
 import { WalletTransactionsResponse } from '../../http/rest/dto/response/wallet-transactions-response.dto';
 import { IWalletRepository } from '../repository/wallet.repository';
-import { WalletService } from './wallet.service';
+import { Wallet } from '../entity/wallet.entity';
 
 @Injectable()
 export class TransactionService {
@@ -14,32 +14,38 @@ export class TransactionService {
     @Inject('IWalletRepository')
     private readonly walletRepository: IWalletRepository,
   ) {}
-
   public async create(
     createTransactionRequest: CreateTransactionRequest,
   ): Promise<Transaction> {
-    const wallet = await this.walletRepository.findById(
-      createTransactionRequest.walletId,
-    );
-
-    if (!wallet) {
-      throw new NotFoundException('Wallet not found');
-    }
+    const wallet = await this.findWallet(createTransactionRequest.walletId);
 
     const transaction = await this.transactionRepository.create(
       createTransactionRequest,
     );
-
     const transactionSaved = await this.transactionRepository.save(transaction);
 
-    if (transactionSaved.type === TransactionType.Credit) {
-      wallet.balance += transactionSaved.value;
-    } else if (transactionSaved.type === TransactionType.Debit) {
-      wallet.balance -= transactionSaved.value;
-    }
+    this.updateWalletBalance(wallet, transactionSaved);
+    await this.walletRepository.save(wallet);
 
-    await this.walletRepository.update(wallet);
-    return transaction;
+    return transactionSaved;
+  }
+
+  private async findWallet(walletId: number): Promise<Wallet> {
+    const wallet = await this.walletRepository.findById(walletId);
+    if (!wallet) {
+      throw new NotFoundException('Wallet not found');
+    }
+    return wallet;
+  }
+
+  private updateWalletBalance(wallet: Wallet, transaction: Transaction): void {
+    const walletBalance = Number(wallet.balance);
+    const transactionValue = Number(transaction.value);
+    if (transaction.type === TransactionType.Credit) {
+      wallet.balance = walletBalance + transactionValue;
+    } else if (transaction.type === TransactionType.Debit) {
+      wallet.balance = walletBalance - transactionValue;
+    }
   }
 
   public async findAll(userId: number): Promise<Transaction[]> {
