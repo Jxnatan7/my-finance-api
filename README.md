@@ -1,73 +1,80 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# My Finance API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este projeto é uma API desenvolvida em NestJS para gerenciar finanças.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Índice
 
-## Description
+- [Instalação](#instalação)
+- [Configuração](#configuração)
+- [Endpoints da API](#endpoints-da-api)
+- [Usuários](#usuários)
+- [Carteiras](#carteiras)
+- [Transações](#transações)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Contribuição](#contribuição)
+- [Contato](#contato)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Instalação
 
-## Installation
+Clone o repositório:
 
 ```bash
-$ yarn install
+git clone https://github.com/Jxnatan7/my-finance-api.git
+cd my-finance
 ```
 
-## Running the app
+Instale as dependências:
 
 ```bash
-# development
-$ yarn run start
-
-# watch mode
-$ yarn run start:dev
-
-# production mode
-$ yarn run start:prod
+npm install
 ```
 
-## Test
+## Configuração
 
-```bash
-# unit tests
-$ yarn run test
+Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis de ambiente:
 
-# e2e tests
-$ yarn run test:e2e
+```env
+JWT_SECRET_KEY=
 
-# test coverage
-$ yarn run test:cov
+TYPEORM_CONNECTION=
+TYPEORM_HOST=
+TYPEORM_PORT=
+TYPEORM_USERNAME=
+TYPEORM_PASSWORD=
+TYPEORM_DATABASE=
 ```
 
-## Support
+## Endpoints da API
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Acesse a documentação com as rotas da API em: 
 
-## Stay in touch
+[Documentação da API](https://localhost:3000/api)
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
-## License
+## Tecnologias Utilizadas
 
-Nest is [MIT licensed](LICENSE).
+- [NestJS](https://nestjs.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Swagger](https://swagger.io/) (Para documentação)
+- [PostgreSQL](https://www.postgresql.org/)
+- [Passport](http://www.passportjs.org/) (Para autenticação JWT)
+
+## Contribuição
+
+Contribuições são bem-vindas! Siga os passos abaixo para contribuir:
+
+1. Fork o projeto.
+2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`).
+3. Commit suas alterações (`git commit -am 'Adiciona nova feature'`).
+4. Push para a branch (`git push origin feature/nova-feature`).
+5. Crie um Pull Request.
+
+## Contato
+
+- Email: jonatan.santos.contato@gmail.com
+- LinkedIn: [Jonatan Santos](https://www.linkedin.com/in/jonatang7/)
+- GitHub: [Jxnatan7](https://github.com/Jxnatan7)
+
+---
+
+Este README fornece uma visão geral clara dos endpoints disponíveis na sua API NestJS, além de detalhar como instalar, configurar e contribuir para o projeto. Personalize as seções conforme necessário para melhor refletir os detalhes específicos do seu projeto e suas preferências pessoais.
