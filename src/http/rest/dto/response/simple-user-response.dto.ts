@@ -1,11 +1,23 @@
 import { User } from '../../../../core/entity/user.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class SimpleUserResponse {
+  @ApiProperty()
   id: number;
+
+  @ApiProperty()
   name: string;
+
+  @ApiProperty()
   email: string;
+
+  @ApiProperty()
   createdAt: string;
+
+  @ApiProperty()
   updatedAt: string;
+
+  @ApiProperty()
   deletedAt: string;
 
   constructor(user: User) {
