@@ -6,6 +6,12 @@ import { WalletTransactionsResponse } from '../../http/rest/dto/response/wallet-
 import { IWalletRepository } from '../repository/wallet.repository';
 import { Wallet } from '../entity/wallet.entity';
 import { UserJwt } from '../../http/rest/helpers/user.decorator';
+import { TransactionsResponse } from '../../http/rest/dto/response/transactions-response.dto';
+
+export type TotalCreditsAndDebits = {
+  totalCredits: number;
+  totalDebits: number;
+};
 
 @Injectable()
 export class TransactionService {
@@ -25,6 +31,7 @@ export class TransactionService {
       createTransactionRequest,
       user,
     );
+
     const transactionSaved = await this.transactionRepository.save(transaction);
 
     this.updateWalletBalance(wallet, transactionSaved);
@@ -51,8 +58,36 @@ export class TransactionService {
     }
   }
 
-  public async findAll(userId: number): Promise<Transaction[]> {
-    return await this.transactionRepository.findAll(userId);
+  public async findAllByUserId(userId: number): Promise<TransactionsResponse> {
+    const transactions: Transaction[] =
+      await this.transactionRepository.findAll(userId);
+
+    const totalCreditsAndDebits: TotalCreditsAndDebits =
+      await this.getTotalCreditsAndDebits(transactions);
+
+    return new TransactionsResponse(transactions, totalCreditsAndDebits);
+  }
+
+  private async getTotalCreditsAndDebits(
+    transactions: Transaction[],
+  ): Promise<TotalCreditsAndDebits> {
+    const initialTotals: TotalCreditsAndDebits = {
+      totalCredits: 0,
+      totalDebits: 0,
+    };
+
+    return transactions.reduce((acc, transaction) => {
+      const transactionValue = Number(transaction.value);
+
+      return {
+        totalCredits:
+          acc.totalCredits +
+          (transaction.type === TransactionType.Credit ? transactionValue : 0),
+        totalDebits:
+          acc.totalDebits +
+          (transaction.type === TransactionType.Debit ? transactionValue : 0),
+      };
+    }, initialTotals);
   }
 
   public async findAllByWalletId(

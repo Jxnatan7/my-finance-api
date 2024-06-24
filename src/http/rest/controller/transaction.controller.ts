@@ -23,6 +23,7 @@ import { User } from '../helpers/user.decorator';
 import { TransactionService } from '../../../core/service/transaction.service';
 import { CreateTransactionRequest } from '../dto/request/create-transaction-request.dto';
 import { WalletTransactionsResponse } from '../dto/response/wallet-transactions-response.dto';
+import { TransactionsResponse } from '../dto/response/transactions-response.dto';
 
 type UserJwt = { id: number; email: string };
 
@@ -54,8 +55,8 @@ export class TransactionController {
     description: 'List of transactions',
     type: [Transaction],
   })
-  async findAll(@User() user: UserJwt): Promise<Transaction[]> {
-    return await this.transactionService.findAll(user?.id);
+  async findAll(@User() user: UserJwt): Promise<TransactionsResponse> {
+    return await this.transactionService.findAllByUserId(user?.id);
   }
 
   @Get('all/:walletId')

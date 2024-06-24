@@ -36,22 +36,8 @@ export class TransactionTypeOrmRepository implements ITransactionRepository {
   }
 
   public async findAll(userId: number): Promise<Transaction[]> {
-    const userWallets = await this.userWalletTypeOrmRepo.find({
-      where: { user: { id: userId } },
-      relations: ['wallet'],
-    });
-
-    const walletIds: number[] = userWallets.map(
-      (userWallet) => userWallet.wallet.id,
-    );
-
-    if (walletIds.length === 0) {
-      return [];
-    }
-
     return this.transactionTypeOrmRepo.find({
-      where: walletIds.map((id: number) => ({ wallet: { id } })),
-      relations: ['wallet'],
+      where: { user_id: userId },
     });
   }
 
