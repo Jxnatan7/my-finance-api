@@ -74,7 +74,3 @@ Contribuições são bem-vindas! Siga os passos abaixo para contribuir:
 - Email: jonatan.santos.contato@gmail.com
 - LinkedIn: [Jonatan Santos](https://www.linkedin.com/in/jonatang7/)
 - GitHub: [Jxnatan7](https://github.com/Jxnatan7)
-
----
-
-Este README fornece uma visão geral clara dos endpoints disponíveis na sua API NestJS, além de detalhar como instalar, configurar e contribuir para o projeto. Personalize as seções conforme necessário para melhor refletir os detalhes específicos do seu projeto e suas preferências pessoais.
