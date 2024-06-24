@@ -1,10 +1,11 @@
-import { Repository } from 'typeorm';
+import { getConnection, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Wallet } from '../../core/entity/wallet.entity';
 import { IWalletRepository } from '../../core/repository/wallet.repository';
 import { UserWallet } from '../../core/entity/user_wallet.entity';
 import { CreateWalletRequest } from '../../http/rest/dto/request/create-wallet-request.dto';
+import { Transaction } from '../../core/entity/transaction.entity';
 
 @Injectable()
 export class WalletTypeOrmRepository implements IWalletRepository {
@@ -62,11 +63,13 @@ export class WalletTypeOrmRepository implements IWalletRepository {
     }
 
     const userWallets: UserWallet[] = await this.userWalletTypeOrmRepo.find({
-      where: { user: { id: userId } },
+      where: { user: { id: userId }, wallet: { deleted_at: null } },
       relations: ['wallet'],
     });
 
-    return userWallets.map((userWallet: UserWallet) => userWallet.wallet);
+    return userWallets
+      .filter((userWallet) => userWallet.wallet !== null)
+      .map((userWallet) => userWallet.wallet);
   }
 
   public async findById(id: number): Promise<Wallet> {
@@ -80,11 +83,20 @@ export class WalletTypeOrmRepository implements IWalletRepository {
   }
 
   public async delete(id: number): Promise<void> {
-    await this.walletTypeOrmRepo
-      .createQueryBuilder()
-      .update(Wallet)
-      .set({ deleted_at: `${new Date()}` })
-      .where('id = :id', { id })
-      .execute();
+    const now = new Date().toString();
+
+    await this.walletTypeOrmRepo.manager.transaction(
+      async (transactionalEntityManager) => {
+        await transactionalEntityManager.update(Wallet, id, {
+          deleted_at: now,
+        });
+
+        await transactionalEntityManager.update(
+          Transaction,
+          { wallet_id: id },
+          { deleted_at: now },
+        );
+      },
+    );
   }
 }

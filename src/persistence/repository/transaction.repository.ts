@@ -55,7 +55,7 @@ export class TransactionTypeOrmRepository implements ITransactionRepository {
     }
 
     const transactions: Transaction[] = await this.transactionTypeOrmRepo.find({
-      where: { wallet_id: walletId },
+      where: { wallet_id: walletId, deleted_at: null },
     });
 
     return new WalletTransactionsResponse(wallet, transactions);
