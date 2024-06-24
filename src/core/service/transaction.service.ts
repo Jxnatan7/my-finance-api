@@ -5,6 +5,7 @@ import { Transaction, TransactionType } from '../entity/transaction.entity';
 import { WalletTransactionsResponse } from '../../http/rest/dto/response/wallet-transactions-response.dto';
 import { IWalletRepository } from '../repository/wallet.repository';
 import { Wallet } from '../entity/wallet.entity';
+import { UserJwt } from '../../http/rest/helpers/user.decorator';
 
 @Injectable()
 export class TransactionService {
@@ -16,11 +17,13 @@ export class TransactionService {
   ) {}
   public async create(
     createTransactionRequest: CreateTransactionRequest,
+    user: UserJwt,
   ): Promise<Transaction> {
     const wallet = await this.findWallet(createTransactionRequest.walletId);
 
     const transaction = await this.transactionRepository.create(
       createTransactionRequest,
+      user,
     );
     const transactionSaved = await this.transactionRepository.save(transaction);
 

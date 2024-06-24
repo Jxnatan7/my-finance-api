@@ -42,8 +42,9 @@ export class TransactionController {
   @ApiBadRequestResponse({ description: 'Invalid request parameters' })
   async create(
     @Body() createTransactionRequest: CreateTransactionRequest,
+    @User() user: UserJwt,
   ): Promise<Transaction> {
-    return await this.transactionService.create(createTransactionRequest);
+    return await this.transactionService.create(createTransactionRequest, user);
   }
 
   @Get('all')

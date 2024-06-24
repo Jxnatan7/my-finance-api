@@ -11,9 +11,10 @@ import {
 } from 'typeorm';
 import { UserWallet } from './user_wallet.entity';
 import { hashSync } from 'bcrypt';
+import { Transaction } from './transaction.entity';
 
 @Unique(['email'])
-@Entity('user')
+@Entity('users')
 export class User {
   @PrimaryGeneratedColumn('increment')
   id: number;
@@ -27,17 +28,20 @@ export class User {
   @Column({ name: 'password' })
   password: string;
 
-  @CreateDateColumn({ name: 'created_at' })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   createdAt: string;
 
-  @UpdateDateColumn({ name: 'updated_at' })
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
   updatedAt: string;
 
-  @DeleteDateColumn({ name: 'deleted_at' })
+  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp' })
   deletedAt: string;
 
   @OneToMany(() => UserWallet, (userWallet) => userWallet.user)
   userWallets: UserWallet[];
+
+  @OneToMany(() => Transaction, (transaction) => transaction.user)
+  transactions: Transaction[];
 
   @BeforeInsert()
   hashPassword() {

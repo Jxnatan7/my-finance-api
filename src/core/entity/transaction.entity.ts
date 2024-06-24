@@ -9,13 +9,14 @@ import {
   DeleteDateColumn,
 } from 'typeorm';
 import { Wallet } from './wallet.entity';
+import { User } from './user.entity';
 
 export enum TransactionType {
-  Credit = 'credit',
-  Debit = 'debit',
+  Credit = 'CREDIT',
+  Debit = 'DEBIT',
 }
 
-@Entity('transaction')
+@Entity('transactions')
 export class Transaction {
   @PrimaryGeneratedColumn()
   id: number;
@@ -29,7 +30,7 @@ export class Transaction {
   })
   type: TransactionType;
 
-  @Column({ name: 'value' })
+  @Column({ name: 'value', type: 'decimal' })
   value: number;
 
   @ManyToOne(() => Wallet, (wallet) => wallet.transactions)
@@ -39,12 +40,19 @@ export class Transaction {
   @Column()
   wallet_id: number;
 
-  @CreateDateColumn({ name: 'created_at' })
+  @ManyToOne(() => User, (user) => user.transactions)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
+
+  @Column()
+  user_id: number;
+
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   created_at: string;
 
-  @UpdateDateColumn({ name: 'updated_at' })
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
   updated_at: string;
 
-  @DeleteDateColumn({ name: 'deleted_at' })
+  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp' })
   deleted_at: string;
 }

@@ -10,7 +10,7 @@ import {
 import { UserWallet } from './user_wallet.entity';
 import { Transaction } from './transaction.entity';
 
-@Entity('wallet')
+@Entity('wallets')
 export class Wallet {
   @PrimaryGeneratedColumn('increment')
   id: number;
@@ -27,12 +27,12 @@ export class Wallet {
   @OneToMany(() => Transaction, (transaction) => transaction.wallet)
   transactions: Transaction[];
 
-  @CreateDateColumn({ name: 'created_at' })
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   created_at: string;
 
-  @UpdateDateColumn({ name: 'updated_at' })
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
   updated_at: string;
 
-  @DeleteDateColumn({ name: 'deleted_at' })
+  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp' })
   deleted_at: string;
 }

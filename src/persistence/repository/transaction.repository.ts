@@ -8,6 +8,7 @@ import { CreateTransactionRequest } from '../../http/rest/dto/request/create-tra
 import { Wallet } from '../../core/entity/wallet.entity';
 import { MessagesHelper } from '../../http/rest/helpers/messages.helper';
 import { WalletTransactionsResponse } from '../../http/rest/dto/response/wallet-transactions-response.dto';
+import { UserJwt } from '../../http/rest/helpers/user.decorator';
 
 @Injectable()
 export class TransactionTypeOrmRepository implements ITransactionRepository {
@@ -22,8 +23,12 @@ export class TransactionTypeOrmRepository implements ITransactionRepository {
 
   public async create(
     createWalletRequest: CreateTransactionRequest,
+    user: UserJwt,
   ): Promise<Transaction> {
-    return this.transactionTypeOrmRepo.create(createWalletRequest);
+    return this.transactionTypeOrmRepo.create({
+      ...createWalletRequest,
+      user_id: user.id,
+    });
   }
 
   public async save(transaction: Transaction): Promise<Transaction> {
